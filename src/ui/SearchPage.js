@@ -40,18 +40,18 @@ class SearchPage extends React.Component {
         //this.setState({tipo: event.target.name})
         //console.log(event)
     }
-    changeBrandPick = (id) => {    
-        this.props.dispatch(getModelList(this.state.typeId, id))
+    changeBrandPick = (event) => {    
+        this.props.dispatch(getModelList(this.state.typeId, event.target.value))
         this.props.dispatch(resetYearList(0))
-        this.setState({brandId: id})
+        this.setState({brandId: event.target.value})
     }
-    changeModelPick = (id) => {    
-        this.props.dispatch(getYearList(this.state.typeId, this.state.brandId, id))
-        this.setState({modelId: id})
+    changeModelPick = (event) => {    
+        this.props.dispatch(getYearList(this.state.typeId, this.state.brandId, event.target.value))
+        this.setState({modelId: event.target.value})
     }
-    changeYearPick = (id) => {    
-        this.props.dispatch(getModelList(this.state.typeId, this.state.brandId, this.state.modelId,id))
-        this.setState({yearId: id})
+    changeYearPick = (event) => {    
+        this.props.dispatch(getModelList(this.state.typeId, this.state.brandId, this.state.modelId, event.target.value))
+        this.setState({yearId: event.target.value})
     }
     submitData = (type, brand, model, year) => {
         this.props.dispatch(getVehicle(type, brand, model, year))
@@ -177,107 +177,109 @@ class SearchPage extends React.Component {
                 >
                     <DialogTitle>Tabela FIPE</DialogTitle>
                     <DialogContent>
-                    <form className={classes.root}>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="inputTipo">Tipo</InputLabel>
+                        <form className={classes.root}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="inputTipo">Tipo</InputLabel>
+                                <Select
+                                    value={this.state.tipo}
+                                    onChange={
+                                        (event) => this.changeTypePick(event)
+                                    }
+                                    inputProps={{
+                                        name: 'Tipo',
+                                        id: 'inputTipo',
+                                    }}
+                                >
+                                    <MenuItem value={"carros"} name={"Carros"}>Carros</MenuItem>
+                                    <MenuItem value={"motos"} name={"Motos"}>Motos</MenuItem>
+                                    <MenuItem value={"caminhoes"} name={"Caminhões"}>Caminhões</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="brand">Marca</InputLabel>
                             <Select
-                                value={this.state.tipo}
+                                value={this.state.marca}
                                 onChange={
-                                    (event) => this.changeTypePick(event/*.target.value*/)
+                                    (event) => this.changeBrandPick(event)
                                 }
-                                inputProps={{
-                                    name: 'Tipo',
-                                    id: 'inputTipo',
-                                }}
+                                input={<Input id="brand" />}
                             >
-                                <MenuItem value={"carros"} name={"Carros"}>Carros</MenuItem>
-                                <MenuItem value={"motos"} name={"Motos"}>Motos</MenuItem>
-                                <MenuItem value={"caminhoes"} name={"Caminhões"}>Caminhões</MenuItem>
+                                {
+                                    (this.props.brands.length > 0)
+                                        ? this.props.brands.map((item)=>(
+                                            <MenuItem
+                                                key={item.codigo}
+                                                value={item.codigo}
+                                            >
+                                                {item.nome}
+                                            </MenuItem>))
+                                        : null
+                                }
                             </Select>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="brand">Marca</InputLabel>
-                        <Select
-                            value={this.state.marca}
-                            onChange={
-                                (event) => this.changeBrandPick(event.target.value)
-                            }
-                            input={<Input id="brand" />}
-                        >
-                            {
-                                (this.props.brands.length > 0)
-                                    ? this.props.brands.map((item)=>(
-                                        <MenuItem
-                                            key={item.codigo}
-                                            value={item.codigo}
-                                        >
-                                            {item.nome}
-                                        </MenuItem>))
-                                    : null
-                            }
-                        </Select>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="model">Modelo</InputLabel>
-                        <Select
-                            value={this.state.modelo}
-                            onChange={
-                                (event) => this.changeModelPick(event.target.value)
-                            }
-                            input={<Input id="model" />}
-                        >
-                            {
-                                (this.props.models.length > 0)
-                                    ? this.props.models.map((item)=>(
-                                        <MenuItem
-                                            key={item.codigo}
-                                            value={item.codigo}
-                                        >
-                                            {item.nome}
-                                        </MenuItem>))
-                                    : null
-                            }
-                        </Select>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="year">Ano</InputLabel>
-                        <Select
-                            value={this.state.ano}
-                            onChange={
-                                (event) => this.changeYearPick(event.target.value)
-                            }
-                            input={<Input id="year" />}
-                        >
-                            {
-                                (this.props.years.length > 0)
-                                    ? this.props.years.map((item)=>(
-                                        <MenuItem
-                                            key={item.codigo}
-                                            value={item.codigo}
-                                        >
-                                            {item.nome}
-                                        </MenuItem>))
-                                    : null
-                            }
-                        </Select>
-                        </FormControl>
-                    </form>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="model">Modelo</InputLabel>
+                            <Select
+                                value={this.state.modelo}
+                                onChange={
+                                    (event) => this.changeModelPick(event)
+                                }
+                                input={<Input id="model" />}
+                            >
+                                {
+                                    (this.props.models.length > 0)
+                                        ? this.props.models.map((item)=>(
+                                            <MenuItem
+                                                key={item.codigo}
+                                                value={item.codigo}
+                                            >
+                                                {item.nome}
+                                            </MenuItem>))
+                                        : null
+                                }
+                            </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="year">Ano</InputLabel>
+                            <Select
+                                value={this.state.ano}
+                                onChange={
+                                    (event) => this.changeYearPick(event)
+                                }
+                                input={<Input id="year" />}
+                            >
+                                {
+                                    (this.props.years.length > 0)
+                                        ? this.props.years.map((item)=>(
+                                            <MenuItem
+                                                key={item.codigo}
+                                                value={item.codigo}
+                                            >
+                                                {item.nome}
+                                            </MenuItem>))
+                                        : null
+                                }
+                            </Select>
+                            </FormControl>
+                        </form>
                     </DialogContent>
                     <DialogActions>
-                    <Button
-                        onClick={() => {
-                            this.submitData(
-                                this.state.typeId,
-                                this.state.brandId,
-                                this.state.modelId,
-                                this.state.yearId
-                            )
-                            this.setState({resultOpen: true})
-                        }}
-                        color="primary"
-                    >
-                        Pesquisar
-                    </Button>
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            className={classes.button}
+                            onClick={() => {
+                                this.submitData(
+                                    this.state.typeId,
+                                    this.state.brandId,
+                                    this.state.modelId,
+                                    this.state.yearId
+                                )
+                                this.setState({resultOpen: true})
+                            }}
+                        >
+                            Pesquisar
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </Box>
