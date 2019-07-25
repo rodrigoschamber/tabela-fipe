@@ -179,7 +179,7 @@ class SearchPage extends React.Component {
                     <DialogContent>
                         <form className={classes.root}>
                             <FormControl className={classes.formControl}>
-                                <InputLabel htmlFor="inputTipo">Tipo</InputLabel>
+                                <InputLabel htmlFor="inputTipo">1°-Tipo</InputLabel>
                                 <Select
                                     value={this.state.tipo}
                                     onChange={
@@ -196,7 +196,7 @@ class SearchPage extends React.Component {
                                 </Select>
                             </FormControl>
                             <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="brand">Marca</InputLabel>
+                            <InputLabel htmlFor="brand">2°-Marca</InputLabel>
                             <Select
                                 value={this.state.marca}
                                 onChange={
@@ -218,7 +218,7 @@ class SearchPage extends React.Component {
                             </Select>
                             </FormControl>
                             <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="model">Modelo</InputLabel>
+                            <InputLabel htmlFor="model">3°-Modelo</InputLabel>
                             <Select
                                 value={this.state.modelo}
                                 onChange={
@@ -240,7 +240,7 @@ class SearchPage extends React.Component {
                             </Select>
                             </FormControl>
                             <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="year">Ano</InputLabel>
+                            <InputLabel htmlFor="year">4°-Ano</InputLabel>
                             <Select
                                 value={this.state.ano}
                                 onChange={
